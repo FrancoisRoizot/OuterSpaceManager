@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager;
+package roizot.com.outerspacemanager.outerspacemanager.NetWork;
 
 /**
  * Created by roizotf on 06/03/2017.

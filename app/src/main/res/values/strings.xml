@@ -12,4 +12,7 @@
     <string name="batiments">Bâtiments</string>
     <string name="inscription">Inscription</string>
     <string name="se_connecter">Se connecter</string>
+    <string name="metaux">Métaux</string>
+    <string name="gaz">Gaz</string>
+    <string name="temps_de_construction">Temps de construction</string>
 </resources>

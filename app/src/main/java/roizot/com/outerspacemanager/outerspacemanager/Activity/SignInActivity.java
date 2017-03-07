@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager;
+package roizot.com.outerspacemanager.outerspacemanager.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,8 +18,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import roizot.com.outerspacemanager.outerspacemanager.NetWork.NetWorkManager;
+import roizot.com.outerspacemanager.outerspacemanager.NetWork.UserConnection;
+import roizot.com.outerspacemanager.outerspacemanager.R;
 
-public class SignUpActivity extends Activity implements View.OnClickListener {
+/**
+ * Created by mac4 on 07/03/2017.
+ */
+
+public class SignInActivity extends Activity implements View.OnClickListener{
 
     public static final String PREFS_NAME = "OGamePrefs";
 
@@ -31,36 +38,29 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_signin);
         connexion = (Button)findViewById(R.id.signUp);
         connexion.setOnClickListener(this);
         inscription = (Button)findViewById(R.id.signIn);
         inscription.setOnClickListener(this);
         identifiant = (EditText)findViewById(R.id.identifiant);
         password = (EditText)findViewById(R.id.password);
-
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        String token = settings.getString("token", "");
-        if (!token.equals("")) {
-            Intent myIntent = new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(myIntent);
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.signUp :
-                this.createAccount(this.identifiant.getText().toString(), this.password.getText().toString());
-                break;
             case R.id.signIn :
-                Intent toSignUp = new Intent(getApplicationContext(),SignInActivity.class);
-                startActivity(toSignUp);
+                this.connectAccount(this.identifiant.getText().toString(), this.password.getText().toString());
+                break;
+            case R.id.signUp :
+                Intent toSignIn = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(toSignIn);
                 break;
         }
     }
 
-    protected void createAccount(String identifiant, String password) {
+    protected void connectAccount(String identifiant, String password) {
         Map<String, String> data = new HashMap<>();
         data.put("username", identifiant);
         data.put("password", password);
@@ -69,7 +69,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);
-        Call<UserConnection> request = service.createAccount(data);
+        Call<UserConnection> request = service.connectAccount(data);
 
         request.enqueue(new Callback<UserConnection>() {
             @Override
