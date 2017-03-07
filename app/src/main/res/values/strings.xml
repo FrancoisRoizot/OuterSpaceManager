@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Outer Space Manager</string>
+    <string name="identifiant">Identifiant</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="connexion">Connexion</string>
+    <string name="deconnexion">Deconnexion</string>
+    <string name="vue_generale">Vue générale</string>
+    <string name="flotte">Flotte</string>
+    <string name="recherches">Recherches</string>
+    <string name="galaxie">Galaxie</string>
+    <string name="chantier_spatial">Chantier spatial</string>
+    <string name="batiments">Bâtiments</string>
+    <string name="inscription">Inscription</string>
+    <string name="se_connecter">Se connecter</string>
 </resources>

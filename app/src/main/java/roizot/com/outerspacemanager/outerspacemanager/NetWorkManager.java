@@ -1,12 +1,13 @@
 package roizot.com.outerspacemanager.outerspacemanager;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -17,9 +18,15 @@ public interface NetWorkManager {
 
     static String BASE_URI = "https://outer-space-manager.herokuapp.com/api/v1/";
 
-    @POST(BASE_URI + "auth/create")
-    Call<User> createAccount(@QueryMap Map<String, String> options);
+    @POST("auth/create")
+    Call<UserConnection> createAccount(@Body Map<String, String> options);
 
-    @POST(BASE_URI + "auth/create")
-    Call<User> connectAccount(@QueryMap Map<String, String> options);
+    @POST("auth/login")
+    Call<UserConnection> connectAccount(@Body Map<String, String> options);
+
+    @GET("users/get")
+    Call<UserInfos> getUserInfos(@Header("x-access-token") String token);
+
+    @GET("buildings/list")
+    Call<List<Building>> getBuildingsInfos(@Header("x-access-token") String token);
 }
