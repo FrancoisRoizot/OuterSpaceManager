@@ -6,6 +6,8 @@ package roizot.com.outerspacemanager.outerspacemanager.models;
 
 public class Building {
 
+
+    private int buildingId;
     private int amountOfEffectByLevel;
     private int amountOfEffectLevel0;
     private boolean building;
@@ -19,6 +21,10 @@ public class Building {
     private String name;
     private int timeToBuildByLevel;
     private int timeToBuildLevel0;
+
+    public int getBuildingId() {
+        return buildingId;
+    }
 
     public int getAmountOfEffectByLevel() {
         return amountOfEffectByLevel;

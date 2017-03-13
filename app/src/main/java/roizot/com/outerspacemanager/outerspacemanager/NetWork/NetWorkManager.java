@@ -30,6 +30,6 @@ public interface NetWorkManager {
     @GET("buildings/list")
     Call<BuildingResponse> getBuildingsInfos(@Header("x-access-token") String token);
 
-    @GET("buildings/create/{buildingId}")
-    Call<String> buildBuilding(@Header("x-access-token") String token, @Path("buildingId") int id);
+    @POST("buildings/create/{buildingId}")
+    Call<PostResponse> buildBuilding(@Header("x-access-token") String token, @Path("buildingId") int id);
 }

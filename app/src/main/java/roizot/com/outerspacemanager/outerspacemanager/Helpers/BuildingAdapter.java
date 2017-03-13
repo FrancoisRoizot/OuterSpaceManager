@@ -20,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import roizot.com.outerspacemanager.outerspacemanager.models.Building;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.R;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.PostResponse;
 
 /**
  * Created by mac4 on 07/03/2017.
@@ -61,7 +62,8 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
         String mineralCost = String.valueOf(building.getMineralCostLevel0() + building.getLevel() * building.getMineralCostByLevel());
         String level = "lvl." + String.valueOf(building.getLevel());
         String time = String.valueOf(building.getTimeToBuildLevel0() + building.getLevel() * building.getTimeToBuildByLevel());
-
+        final int buildingId = values.get(position).getBuildingId();
+        
         buildingName.setText(name);
 //        building_effect.setText(effect);
         buildingNextCostGas.setText(gasCost);
@@ -71,7 +73,7 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
         upgradeBuilding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buildBuilding(10);
+                buildBuilding(buildingId);
             }
         });
 
@@ -85,22 +87,23 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);
-        Call<String> request = service.buildBuilding(Config.getToken(context), id);
+        Call<PostResponse> request = service.buildBuilding(Config.getToken(context), id);
 
-        request.enqueue(new Callback<String>() {
+        request.enqueue(new Callback<PostResponse>() {
             @Override
-            public void onResponse(Call<String> request, Response<String> response) {
+            public void onResponse(Call<PostResponse> request, Response<PostResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "Construction lancée !", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());
+                    Log.d("Error errorBody", response.errorBody().toString());
                     Toast.makeText(context, "Erreur à la récupération des données !", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> request, Throwable t) {
+            public void onFailure(Call<PostResponse> request, Throwable t) {
                 // something went completely south (like no internet connection)
                 Log.d("Error", t.getMessage());
                 Toast.makeText(context, "Erreur de connexion !", Toast.LENGTH_SHORT).show();
