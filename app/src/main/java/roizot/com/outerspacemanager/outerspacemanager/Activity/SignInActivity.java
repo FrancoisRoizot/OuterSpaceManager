@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.Activity;
+package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,8 +18,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import roizot.com.outerspacemanager.outerspacemanager.NetWork.NetWorkManager;
-import roizot.com.outerspacemanager.outerspacemanager.NetWork.UserConnection;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.UserConnection;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 
 /**
@@ -27,8 +28,6 @@ import roizot.com.outerspacemanager.outerspacemanager.R;
  */
 
 public class SignInActivity extends Activity implements View.OnClickListener{
-
-    public static final String PREFS_NAME = "OGamePrefs";
 
     private Button connexion;
     private Button inscription;
@@ -75,10 +74,7 @@ public class SignInActivity extends Activity implements View.OnClickListener{
             @Override
             public void onResponse(Call<UserConnection> request, Response<UserConnection> response) {
                 if (response.isSuccessful()) {
-                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("token", response.body().getToken());
-                    editor.commit();
+                    Config.setToken(getApplicationContext(), response.body().getToken());
                     Intent myIntent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(myIntent);
                 } else {

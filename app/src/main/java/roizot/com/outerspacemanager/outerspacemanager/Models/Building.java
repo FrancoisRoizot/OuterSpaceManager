@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.Models;
+package roizot.com.outerspacemanager.outerspacemanager.models;
 
 /**
  * Created by mac4 on 07/03/2017.

@@ -1,8 +1,8 @@
-package roizot.com.outerspacemanager.outerspacemanager.NetWork;
+package roizot.com.outerspacemanager.outerspacemanager.netWork;
 
 import java.util.ArrayList;
 
-import roizot.com.outerspacemanager.outerspacemanager.Models.Building;
+import roizot.com.outerspacemanager.outerspacemanager.models.Building;
 
 /**
  * Created by mac4 on 07/03/2017.

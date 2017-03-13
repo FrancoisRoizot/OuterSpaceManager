@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.Activity;
+package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -15,19 +15,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import roizot.com.outerspacemanager.outerspacemanager.Helpers.BuildingAdapter;
-import roizot.com.outerspacemanager.outerspacemanager.Models.Building;
-import roizot.com.outerspacemanager.outerspacemanager.NetWork.BuildingResponse;
-import roizot.com.outerspacemanager.outerspacemanager.NetWork.NetWorkManager;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.BuildingAdapter;
+import roizot.com.outerspacemanager.outerspacemanager.models.Building;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.BuildingResponse;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.R;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
 
 /**
  * Created by mac4 on 07/03/2017.
  */
 
 public class BuildingActivity extends Activity implements View.OnClickListener {
-
-    public static final String PREFS_NAME = "OGamePrefs";
 
     private String token;
 
@@ -40,8 +39,7 @@ public class BuildingActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building);
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        token = settings.getString("token", "");
+        token = Config.getToken(getApplicationContext());
         getBuildingInfos();
 
         buildingList = (ListView) findViewById(R.id.buildingList);
@@ -65,7 +63,7 @@ public class BuildingActivity extends Activity implements View.OnClickListener {
             public void onResponse(Call<BuildingResponse> request, Response<BuildingResponse> response) {
                 if (response.isSuccessful()) {
                     buildings = response.body().getBuildings();
-                    adapter = new BuildingAdapter(buildings,getApplicationContext());
+                    adapter = new BuildingAdapter(getApplicationContext(), buildings);
                     buildingList.setAdapter(adapter);
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");

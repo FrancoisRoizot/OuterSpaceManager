@@ -1,6 +1,7 @@
-package roizot.com.outerspacemanager.outerspacemanager.Activity;
+package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,17 +16,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import roizot.com.outerspacemanager.outerspacemanager.NetWork.NetWorkManager;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.R;
-import roizot.com.outerspacemanager.outerspacemanager.Models.UserInfos;
+import roizot.com.outerspacemanager.outerspacemanager.models.UserInfos;
 
 /**
  * Created by mac4 on 07/03/2017.
  */
 
 public class MainActivity extends Activity implements View.OnClickListener{
-
-    public static final String PREFS_NAME = "OGamePrefs";
 
     private String token;
 
@@ -43,8 +43,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        token = settings.getString("token", "");
+        token = Config.getToken(getApplicationContext());
 
         setContentView(R.layout.home_page);
         logout = (Button) findViewById(R.id.logout);
@@ -89,8 +88,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     public void logout() {
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        settings.edit().remove("token").commit();
+        Config.deleteToken(getApplicationContext());
         Intent myIntent = new Intent(getApplicationContext(),SignInActivity.class);
         startActivity(myIntent);
     }

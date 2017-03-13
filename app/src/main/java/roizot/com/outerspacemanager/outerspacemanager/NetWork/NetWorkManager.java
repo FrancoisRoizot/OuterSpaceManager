@@ -1,6 +1,5 @@
-package roizot.com.outerspacemanager.outerspacemanager.NetWork;
+package roizot.com.outerspacemanager.outerspacemanager.netWork;
 
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -8,7 +7,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import roizot.com.outerspacemanager.outerspacemanager.Models.UserInfos;
+import retrofit2.http.Path;
+import roizot.com.outerspacemanager.outerspacemanager.models.UserInfos;
 
 /**
  * Created by roizotf on 06/03/2017.
@@ -29,4 +29,7 @@ public interface NetWorkManager {
 
     @GET("buildings/list")
     Call<BuildingResponse> getBuildingsInfos(@Header("x-access-token") String token);
+
+    @GET("buildings/create/{buildingId}")
+    Call<String> buildBuilding(@Header("x-access-token") String token, @Path("buildingId") int id);
 }
