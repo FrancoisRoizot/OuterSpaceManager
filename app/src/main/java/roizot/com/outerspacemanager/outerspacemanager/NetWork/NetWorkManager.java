@@ -32,4 +32,14 @@ public interface NetWorkManager {
 
     @POST("buildings/create/{buildingId}")
     Call<PostResponse> buildBuilding(@Header("x-access-token") String token, @Path("buildingId") int id);
+
+    @GET("searches/list")
+    Call<ResearchResponse> getResearchesInfos(@Header("x-access-token") String token);
+
+    @POST("searches/create/{searchId}")
+    Call<PostResponse> makeResearch(@Header("x-access-token") String token, @Path("searchId") int id);
+
+    @GET("users/{from}/{limit}")
+    Call<UsersResponse> getUsersRank(@Header("x-access-token") String token, @Path("from") int from, @Path("limit") int limit);
+
 }

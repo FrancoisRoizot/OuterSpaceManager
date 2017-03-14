@@ -1,9 +1,7 @@
 package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +36,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private Button galaxy;
     private TextView userName;
     private TextView points;
+    private TextView gas;
+    private TextView minerals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,27 +62,39 @@ public class MainActivity extends Activity implements View.OnClickListener{
         galaxy.setOnClickListener(this);
         userName = (TextView) findViewById(R.id.userName);
         points = (TextView) findViewById(R.id.points);
+        gas = (TextView) findViewById(R.id.gas);
+        minerals = (TextView) findViewById(R.id.minerals);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         setUserInfos();
-
     }
 
     @Override
     public void onClick(View v) {
+        Button clickedBtn = (Button) v;
         switch (v.getId()) {
             case R.id.logout :
                 logout();
                 break;
             case R.id.buildings :
-                Intent toBuilding = new Intent(getApplicationContext(),BuildingActivity.class);
+                Intent toBuilding = new Intent(getApplicationContext(), BuildingActivity.class);
                 startActivity(toBuilding);
+                break;
+            case R.id.research :
+                Intent toResearch = new Intent(getApplicationContext(), ResearchActivity.class);
+                startActivity(toResearch);
+                break;
+            case R.id.galaxy :
+                Intent toRank = new Intent(getApplicationContext(), RankActivity.class);
+                startActivity(toRank);
                 break;
             case R.id.overView :
             case R.id.fleet :
-            case R.id.research :
             case R.id.sheepBuilder :
-            case R.id.galaxy :
-                Toast.makeText(getApplicationContext(), "Pas encore implémenté", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), clickedBtn.getText() + " pas encore implémenté", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -106,7 +118,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             public void onResponse(Call<UserInfos> request, Response<UserInfos> response) {
                 if (response.isSuccessful()) {
                     userName.setText(response.body().getUsername());
-                    points.setText(response.body().getPoints() + " Points");
+                    points.setText( (long) response.body().getPoints() + " Points");
+                    gas.setText(String.valueOf( (long) response.body().getGas()));
+                    minerals.setText(String.valueOf( (long) response.body().getMinerals()));
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());

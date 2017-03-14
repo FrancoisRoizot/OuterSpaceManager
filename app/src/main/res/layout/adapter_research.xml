@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"  >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buildingName"
+        android:id="@+id/researchName"
         android:textSize="18sp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -20,14 +18,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buildingLevel"
+        android:id="@+id/researchLevel"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:textSize="10sp"
-        android:layout_alignBottom="@+id/buildingName"
-        android:layout_toRightOf="@+id/buildingName"
-        android:layout_toEndOf="@+id/buildingName"
-        tools:ignore="SmallSp" />
+        android:layout_alignBottom="@+id/researchName"
+        android:layout_toRightOf="@+id/researchName"
+        android:layout_toEndOf="@+id/researchName" />
 
     <TextView
         android:text="@string/metaux"
@@ -48,12 +45,12 @@
         android:layout_toEndOf="@+id/textView5"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:id="@+id/buildingNextCostGas" />
+        android:id="@+id/researchNextCostGas" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buildingNextCostMinerals"
+        android:id="@+id/researchNextCostMinerals"
         android:layout_alignBaseline="@+id/textView7"
         android:layout_alignBottom="@+id/textView7"
         android:layout_marginLeft="8dp"
@@ -82,42 +79,30 @@
         android:layout_toEndOf="@+id/textView9"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:id="@+id/buildingTimeBuild" />
+        android:id="@+id/researchTimeBuild" />
 
     <TextView
         android:text="@string/gaz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
-        android:layout_below="@+id/buildingName"
-        android:layout_alignLeft="@+id/buildingName"
-        android:layout_alignStart="@+id/buildingName"
+        android:layout_below="@+id/researchName"
+        android:layout_alignLeft="@+id/researchName"
+        android:layout_alignStart="@+id/researchName"
         android:layout_marginTop="4dp" />
 
     <Button
-        android:text="@string/construire"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/upgradeBuilding"
-        android:textSize="10sp"
-        android:layout_below="@+id/buildingTimeBuild"
-        android:layout_marginTop="4dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        tools:ignore="SmallSp" />
-
-    <ImageView
-        app:srcCompat="@color/colorPrimaryDark"
-        android:id="@+id/buildingImage"
-        android:scaleType="fitCenter"
-        android:layout_above="@+id/upgradeBuilding"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="8dp"
-        android:layout_alignTop="@+id/buildingName"
+        android:text="@string/rechercher"
         android:layout_width="100dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="100dp"
-        android:contentDescription=""
-        tools:ignore="ContentDescription" />
+        android:layout_height="wrap_content"
+        android:id="@+id/upgradeResearch"
+        android:textSize="10sp"
+        android:layout_alignTop="@+id/researchName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp" />
+
 </RelativeLayout>

@@ -1,14 +1,18 @@
 package roizot.com.outerspacemanager.outerspacemanager.helpers;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -17,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import roizot.com.outerspacemanager.outerspacemanager.activity.BuildingActivity;
 import roizot.com.outerspacemanager.outerspacemanager.models.Building;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.R;
@@ -26,60 +31,87 @@ import roizot.com.outerspacemanager.outerspacemanager.netWork.PostResponse;
  * Created by mac4 on 07/03/2017.
  */
 
-public class BuildingAdapter extends ArrayAdapter<Building> {
+public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.BuildingViewHolder> {
 
+    private final ArrayList<Building> buildings;
     private final Context context;
-    private final ArrayList<Building> values;
-    private Building building;
+    private final Refresh refresh;
 
-
-    public BuildingAdapter(Context context, ArrayList<Building> values) {
-        super(context, R.layout.adapter_building, values);
+    public BuildingAdapter(ArrayList<Building> buildings, Context context, Refresh refresh) {
+        this.buildings = buildings;
         this.context = context;
-        this.values = values;
-
+        this.refresh = refresh;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public BuildingAdapter.BuildingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.adapter_building, parent, false);
+        BuildingViewHolder viewHolder = new BuildingViewHolder(rowView);
+        return viewHolder;
+    }
 
-        building = values.get(position);
+    @Override
+    public void onBindViewHolder(BuildingAdapter.BuildingViewHolder holder, int position) {
+        Building building = buildings.get(position);
 
-        TextView buildingName = (TextView) rowView.findViewById(R.id.buildingName);
-//        TextView building_effect = (TextView) rowView.findViewById(R.id.buil);
-        TextView buildingNextCostGas = (TextView) rowView.findViewById(R.id.buildingNextCostGas);
-        TextView buildingNextCostMinerals = (TextView) rowView.findViewById(R.id.buildingNextCostMinerals);
-        TextView buildingLevel = (TextView) rowView.findViewById(R.id.buildingLevel);
-        TextView buildingTimeBuild = (TextView) rowView.findViewById(R.id.buildingTimeBuild);
-        Button upgradeBuilding = (Button) rowView.findViewById(R.id.upgradeBuilding);
-
-        String name = building.getName();
-        String effect = building.getEffect();
         String gasCost = String.valueOf(building.getGasCostLevel0() + building.getLevel() * building.getGasCostByLevel());
         String mineralCost = String.valueOf(building.getMineralCostLevel0() + building.getLevel() * building.getMineralCostByLevel());
         String level = "lvl." + String.valueOf(building.getLevel());
         String time = String.valueOf(building.getTimeToBuildLevel0() + building.getLevel() * building.getTimeToBuildByLevel());
-        final int buildingId = values.get(position).getBuildingId();
-        
-        buildingName.setText(name);
-//        building_effect.setText(effect);
-        buildingNextCostGas.setText(gasCost);
-        buildingNextCostMinerals.setText(mineralCost);
-        buildingLevel.setText(level);
-        buildingTimeBuild.setText(time);
-        upgradeBuilding.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buildBuilding(buildingId);
-            }
-        });
+        String image = building.getImageUrl();
+        final int buildingId = building.getBuildingId();
 
-        return rowView;
+        holder.buildingName.setText(building.getName());
+        holder.buildingNextCostGas.setText(gasCost);
+        holder.buildingNextCostMinerals.setText(mineralCost);
+        holder.buildingLevel.setText(level);
+        holder.buildingTimeBuild.setText(time);
+        if(building.isBuilding()) {
+            holder.upgradeBuilding.setText(R.string.construction_en_cours);
+            holder.upgradeBuilding.setClickable(false);
+        } else {
+            holder.upgradeBuilding.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buildBuilding(buildingId);
+                }
+            });
+        }
+
+        Glide
+            .with(context)
+            .load(image)
+            .centerCrop()
+            .crossFade()
+            .into(holder.buildingImage);
     }
 
+    @Override
+    public int getItemCount() {
+        return buildings.size();
+    }
+
+    public class BuildingViewHolder extends RecyclerView.ViewHolder {
+        private TextView buildingName;
+        private TextView buildingNextCostGas;
+        private TextView buildingNextCostMinerals;
+        private TextView buildingLevel;
+        private TextView buildingTimeBuild;
+        private ImageView buildingImage;
+        private Button upgradeBuilding;
+
+        public BuildingViewHolder(View itemView) {
+            super(itemView);
+            buildingName = (TextView) itemView.findViewById(R.id.buildingName);
+            buildingNextCostGas = (TextView) itemView.findViewById(R.id.buildingNextCostGas);
+            buildingNextCostMinerals = (TextView) itemView.findViewById(R.id.buildingNextCostMinerals);
+            buildingLevel = (TextView) itemView.findViewById(R.id.buildingLevel);
+            buildingTimeBuild = (TextView) itemView.findViewById(R.id.buildingTimeBuild);
+            buildingImage = (ImageView) itemView.findViewById(R.id.buildingImage);
+            upgradeBuilding = (Button) itemView.findViewById(R.id.upgradeBuilding);
+        }
+    }
 
     private void buildBuilding(int id) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -94,6 +126,7 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
             public void onResponse(Call<PostResponse> request, Response<PostResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "Construction lancée !", Toast.LENGTH_SHORT).show();
+                    refresh.refresh();
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());

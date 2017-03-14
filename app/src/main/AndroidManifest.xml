@@ -22,6 +22,10 @@
         </activity>
         <activity android:name=".activity.BuildingActivity">
         </activity>
+        <activity android:name=".activity.ResearchActivity">
+        </activity>
+        <activity android:name=".activity.RankActivity">
+        </activity>
     </application>
 
 </manifest>

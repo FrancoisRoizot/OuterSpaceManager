@@ -12,32 +12,33 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.BuildingAdapter;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.Refresh;
-import roizot.com.outerspacemanager.outerspacemanager.models.Building;
-import roizot.com.outerspacemanager.outerspacemanager.netWork.BuildingResponse;
-import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.Refresh;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.ResearchAdapter;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.ResearchResponse;
 
 /**
- * Created by mac4 on 07/03/2017.
+ * Created by mac4 on 14/03/2017.
  */
 
-public class BuildingActivity extends Activity implements Refresh {
+public class ResearchActivity extends Activity implements Refresh {
+
+    private final String TAG = "Tag";
 
     private String token;
-    private RecyclerView rvBuildings;
+    private RecyclerView rvResearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_building);
+        setContentView(R.layout.activity_research);
 
         token = Config.getToken(getApplicationContext());
 
-        this.rvBuildings = (RecyclerView) findViewById(R.id.buildingList);
-        rvBuildings.setLayoutManager(new LinearLayoutManager(this));
+        this.rvResearch = (RecyclerView) findViewById(R.id.researchList);
+        rvResearch.setLayoutManager(new LinearLayoutManager(this));
 
         refresh();
     }
@@ -49,13 +50,13 @@ public class BuildingActivity extends Activity implements Refresh {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);
-        Call<BuildingResponse> request = service.getBuildingsInfos(token);
+        Call<ResearchResponse> request = service.getResearchesInfos(token);
 
-        request.enqueue(new Callback<BuildingResponse>() {
+        request.enqueue(new Callback<ResearchResponse>() {
             @Override
-            public void onResponse(Call<BuildingResponse> request, Response<BuildingResponse> response) {
+            public void onResponse(Call<ResearchResponse> request, Response<ResearchResponse> response) {
                 if (response.isSuccessful()) {
-                    rvBuildings.setAdapter(new BuildingAdapter(response.body().getBuildings(), BuildingActivity.this, BuildingActivity.this));
+                    rvResearch.setAdapter(new ResearchAdapter(response.body().getResearches(), ResearchActivity.this, ResearchActivity.this));
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());
@@ -64,7 +65,7 @@ public class BuildingActivity extends Activity implements Refresh {
             }
 
             @Override
-            public void onFailure(Call<BuildingResponse> request, Throwable t) {
+            public void onFailure(Call<ResearchResponse> request, Throwable t) {
                 // something went completely south (like no internet connection)
                 Log.d("Error", t.getMessage());
                 Toast.makeText(getApplicationContext(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();

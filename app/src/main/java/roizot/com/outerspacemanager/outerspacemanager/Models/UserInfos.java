@@ -10,7 +10,7 @@ public class UserInfos {
     private double gasModifier;
     private double minerals;
     private double mineralsModifier;
-    private int points;
+    private double points;
     private String username;
 
 
@@ -34,7 +34,7 @@ public class UserInfos {
         return mineralsModifier;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 }
