@@ -75,6 +75,6 @@ public class ResearchActivity extends Activity implements Refresh {
     @Override
     protected void onStop() {
         super.onStop();
-        ((BuildingAdapter)rvResearch.getAdapter()).setRefreshing(false);
+        ((ResearchAdapter)rvResearch.getAdapter()).setRefreshing(false);
     }
 }
