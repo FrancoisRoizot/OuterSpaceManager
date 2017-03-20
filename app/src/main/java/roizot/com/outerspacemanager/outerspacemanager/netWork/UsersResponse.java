@@ -15,4 +15,13 @@ public class UsersResponse {
     public ArrayList<UserInfos> getUsers() {
         return users;
     }
+
+    @Override
+    public String toString() {
+        String str = "Yolo : ";
+        for (UserInfos user : users) {
+            str += user.getUsername() + ", ";
+        }
+        return str;
+    }
 }

@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.RankAdapter;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.Adapter.RankAdapter;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.UsersResponse;
 
@@ -26,17 +26,17 @@ public class RankActivity extends Activity{
 
     private static final int LIMIT = 20;
     private String token;
-    private RecyclerView rvResearch;
+    private RecyclerView rvRank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_research);
+        setContentView(R.layout.activity_rank);
 
         token = Config.getToken(getApplicationContext());
 
-        this.rvResearch = (RecyclerView) findViewById(R.id.researchList);
-        rvResearch.setLayoutManager(new LinearLayoutManager(this));
+        this.rvRank = (RecyclerView) findViewById(R.id.usersList);
+        rvRank.setLayoutManager(new LinearLayoutManager(this));
 
         getRanks();
     }
@@ -47,13 +47,13 @@ public class RankActivity extends Activity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);
-        Call<UsersResponse> request = service.getUsersRank(token, 1, LIMIT);
+        Call<UsersResponse> request = service.getUsersRank(token, 0, LIMIT);
 
         request.enqueue(new Callback<UsersResponse>() {
             @Override
             public void onResponse(Call<UsersResponse> request, Response<UsersResponse> response) {
                 if (response.isSuccessful()) {
-                    rvResearch.setAdapter(new RankAdapter(response.body().getUsers(), RankActivity.this));
+                    rvRank.setAdapter(new RankAdapter(response.body().getUsers(), RankActivity.this));
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());

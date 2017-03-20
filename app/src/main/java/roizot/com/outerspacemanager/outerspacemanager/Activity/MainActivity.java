@@ -1,8 +1,12 @@
 package roizot.com.outerspacemanager.outerspacemanager.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +29,9 @@ import roizot.com.outerspacemanager.outerspacemanager.models.UserInfos;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
+
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_DB = 0;
+
     private String token;
 
     private Button logout;
@@ -44,6 +51,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
         token = Config.getToken(getApplicationContext());
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            // Should we show an explanation? (to avoid a never ask again response)
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block this thread waiting for the user's response !
+                // After the user sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_DB);
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an app-defined int constant. The callback method gets the result of the request.
+            }
+        }
 
         setContentView(R.layout.home_page);
         logout = (Button) findViewById(R.id.logout);
@@ -135,5 +154,23 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 Toast.makeText(getApplicationContext(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_DB: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+                    Config.setDBRights(true);
+                } else {
+                    // permission denied, boo! Disable the functionality that depends on this permission.
+                    Config.setDBRights(false);
+                }
+                return;
+            }
+            // other 'case' lines to check for other permissions this app might request
+        }
     }
 }

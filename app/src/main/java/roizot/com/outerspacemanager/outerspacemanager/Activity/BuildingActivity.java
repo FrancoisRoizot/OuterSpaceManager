@@ -12,9 +12,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.BuildingAdapter;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.Adapter.BuildingAdapter;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Refresh;
-import roizot.com.outerspacemanager.outerspacemanager.models.Building;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.BuildingResponse;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.R;
@@ -70,5 +69,11 @@ public class BuildingActivity extends Activity implements Refresh {
                 Toast.makeText(getApplicationContext(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ((BuildingAdapter)rvBuildings.getAdapter()).setRefreshing(false);
     }
 }

@@ -80,7 +80,7 @@ public class SignInActivity extends Activity implements View.OnClickListener{
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());
-                    Toast.makeText(getApplicationContext(), "Erreur à la création !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Erreur à la connection !", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -88,7 +88,7 @@ public class SignInActivity extends Activity implements View.OnClickListener{
             public void onFailure(Call<UserConnection> request, Throwable t) {
                 // something went completely south (like no internet connection)
                 Log.d("Error", t.getMessage());
-                Toast.makeText(getApplicationContext(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Erreur de connexion  à internet !", Toast.LENGTH_SHORT).show();
             }
         });
     }

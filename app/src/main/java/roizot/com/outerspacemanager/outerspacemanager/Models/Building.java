@@ -1,5 +1,7 @@
 package roizot.com.outerspacemanager.outerspacemanager.models;
 
+import java.security.Timestamp;
+
 /**
  * Created by mac4 on 07/03/2017.
  */
