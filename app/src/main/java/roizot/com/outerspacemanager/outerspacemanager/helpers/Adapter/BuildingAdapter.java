@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.helpers.Adapter;
+package roizot.com.outerspacemanager.outerspacemanager.helpers.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +22,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.DB.BuildingDB;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.DB.OuterSpaceManagerDAO;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.db.BuildingDB;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.db.OuterSpaceManagerDAO;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Refresh;
 import roizot.com.outerspacemanager.outerspacemanager.models.Building;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
@@ -66,7 +66,6 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
         String gasCost = String.valueOf(building.getGasCostLevel0() + building.getLevel() * building.getGasCostByLevel());
         String mineralCost = String.valueOf(building.getMineralCostLevel0() + building.getLevel() * building.getMineralCostByLevel());
         String level = "lvl." + String.valueOf(building.getLevel());
-        String time = String.valueOf(building.getTimeToBuildLevel0() + building.getLevel() * building.getTimeToBuildByLevel());
         String image = building.getImageUrl();
         final int buildingId = building.getBuildingId();
         final long timeToBuild = (building.getTimeToBuildLevel0() + building.getLevel() * building.getTimeToBuildByLevel()) * 1000;
@@ -75,7 +74,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
         holder.buildingNextCostGas.setText(gasCost);
         holder.buildingNextCostMinerals.setText(mineralCost);
         holder.buildingLevel.setText(level);
-        holder.buildingTimeBuild.setText(time);
+        holder.buildingTimeBuild.setText(Config.formatTime(timeToBuild));
 
         if(building.isBuilding()) {
             holder.upgradeBuilding.setText(R.string.construction_en_cours);
@@ -145,7 +144,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
 
     private void buildBuilding(final int id, final long timeToBuild) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://outer-space-manager.herokuapp.com/api/v1/")
+                .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);

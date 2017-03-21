@@ -8,6 +8,7 @@ public class PostResponse {
 
     private String code;
     private String internalCode;
+    private long attackTime;
 
     public String getInternalCode() {
         return internalCode;
@@ -16,4 +17,6 @@ public class PostResponse {
     public String getCode() {
         return code;
     }
+
+    public long getAttackTime() { return attackTime; }
 }

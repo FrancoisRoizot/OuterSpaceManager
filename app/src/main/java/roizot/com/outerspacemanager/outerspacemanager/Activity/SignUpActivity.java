@@ -2,7 +2,6 @@ package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,7 +66,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         data.put("username", identifiant);
         data.put("password", password);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://outer-space-manager.herokuapp.com/api/v1/")
+                .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);

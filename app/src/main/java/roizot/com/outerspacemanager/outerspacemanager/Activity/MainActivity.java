@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     public void setUserInfos() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://outer-space-manager.herokuapp.com/api/v1/")
+                .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);

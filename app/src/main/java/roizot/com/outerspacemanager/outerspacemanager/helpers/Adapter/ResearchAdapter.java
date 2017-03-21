@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.helpers.Adapter;
+package roizot.com.outerspacemanager.outerspacemanager.helpers.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -20,8 +20,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.DB.OuterSpaceManagerDAO;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.DB.ResearchDB;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.db.OuterSpaceManagerDAO;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.db.ResearchDB;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Refresh;
 import roizot.com.outerspacemanager.outerspacemanager.models.Research;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
@@ -63,7 +63,6 @@ public class ResearchAdapter extends RecyclerView.Adapter<ResearchAdapter.Resear
         String gasCost = String.valueOf(research.getGasCostLevel0() + research.getLevel() * research.getGasCostByLevel());
         String mineralCost = String.valueOf(research.getMineralCostLevel0() + research.getLevel() * research.getMineralCostByLevel());
         String level = "lvl." + String.valueOf(research.getLevel());
-        String time = String.valueOf(research.getTimeToBuildLevel0() + research.getLevel() * research.getTimeToBuildByLevel());
         final int researchId = research.getResearchId();
         final long timeToSearch = (research.getTimeToBuildLevel0() + research.getLevel() * research.getTimeToBuildByLevel()) * 1000;
 
@@ -71,7 +70,7 @@ public class ResearchAdapter extends RecyclerView.Adapter<ResearchAdapter.Resear
         holder.researchNextCostGas.setText(gasCost);
         holder.researchNextCostMinerals.setText(mineralCost);
         holder.researchLevel.setText(level);
-        holder.researchTimeBuild.setText(time);
+        holder.researchTimeBuild.setText(Config.formatTime(timeToSearch));
         if(research.isSearching()) {
             holder.upgradeResearch.setText(R.string.recherche_en_cours);
             holder.upgradeResearch.setClickable(false);OuterSpaceManagerDAO bd = new OuterSpaceManagerDAO(context);
@@ -131,7 +130,7 @@ public class ResearchAdapter extends RecyclerView.Adapter<ResearchAdapter.Resear
 
     private void makeResearch(final int id, final long timeToSearch) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://outer-space-manager.herokuapp.com/api/v1/")
+                .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);

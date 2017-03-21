@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.Adapter.RankAdapter;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.adapter.RankAdapter;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.UsersResponse;
 
@@ -43,7 +43,7 @@ public class RankActivity extends Activity{
 
     public void getRanks() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://outer-space-manager.herokuapp.com/api/v1/")
+                .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);

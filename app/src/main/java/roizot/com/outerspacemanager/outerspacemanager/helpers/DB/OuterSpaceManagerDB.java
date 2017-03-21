@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.helpers.DB;
+package roizot.com.outerspacemanager.outerspacemanager.helpers.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

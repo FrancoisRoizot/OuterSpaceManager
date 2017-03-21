@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import roizot.com.outerspacemanager.outerspacemanager.models.Ship;
 import roizot.com.outerspacemanager.outerspacemanager.models.UserInfos;
 
 /**
@@ -16,7 +17,7 @@ import roizot.com.outerspacemanager.outerspacemanager.models.UserInfos;
 
 public interface NetWorkManager {
 
-    static String BASE_URI = "https://outer-space-manager.herokuapp.com/api/v1/";
+    String BASE_URI = "https://outer-space-manager.herokuapp.com/api/v1/";
 
     @POST("auth/create")
     Call<UserConnection> createAccount(@Body Map<String, String> options);
@@ -42,4 +43,22 @@ public interface NetWorkManager {
     @GET("users/{from}/{limit}")
     Call<UsersResponse> getUsersRank(@Header("x-access-token") String token, @Path("from") int from, @Path("limit") int limit);
 
+    @POST("fleet/attack/{userName}")
+    Call<PostResponse> attackUser(@Header("x-access-token") String token, @Path("userName") String userName, @Body Map<String, Object> ships);
+
+    @GET("fleet/list")
+    Call<ShipsResponse> getFleet(@Header("x-access-token") String token);
+
+    @GET("ships/create/{shipId}")
+    Call<PostResponse> buildShips(@Header("x-access-token") String token, @Path("shipId") int shipId, @Body Map<String, Integer> ships);
+
+    @GET("ships")
+    Call<Ship> getShips(@Header("x-access-token") String token);
+
+    @GET("ships/{shipId}")
+    Call<ShipsResponse> getShip(@Header("x-access-token") String token, @Path("shipId") int shipId);
+
+    // TODO : Créer l'objet Reports
+    @GET("reports/{from}/{limit}")
+    Call<Object> getReports(@Header("x-access-token") String token, @Path("from") int from, @Path("limit") int limit);
 }

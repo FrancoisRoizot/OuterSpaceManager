@@ -1,4 +1,4 @@
-package roizot.com.outerspacemanager.outerspacemanager.helpers.DB;
+package roizot.com.outerspacemanager.outerspacemanager.helpers.db;
 
 /**
  * Created by mac4 on 20/03/2017.
