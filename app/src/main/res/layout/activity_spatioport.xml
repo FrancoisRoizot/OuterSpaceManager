@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="outerspacemanager.com.beaudouin.space_shuttle.SpaceShuttleActivity">
+    tools:context=".activity.SpatioPortActivity">
 
     <fragment
         android:id="@+id/shipListFragment"
-        android:name="outerspacemanager.com.beaudouin.space_shuttle.ShipListFragment"
+        android:name="roizot.com.outerspacemanager.outerspacemanager.activity.ShipListFragment"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"

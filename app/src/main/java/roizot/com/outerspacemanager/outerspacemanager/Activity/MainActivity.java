@@ -110,9 +110,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 Intent toRank = new Intent(getApplicationContext(), RankActivity.class);
                 startActivity(toRank);
                 break;
+            case R.id.sheepBuilder :
+                Intent toSpatioPort = new Intent(getApplicationContext(), SpatioPortActivity.class);
+                startActivity(toSpatioPort);
+                break;
             case R.id.overView :
             case R.id.fleet :
-            case R.id.sheepBuilder :
                 Toast.makeText(getApplicationContext(), clickedBtn.getText() + " pas encore implémenté", Toast.LENGTH_SHORT).show();
                 break;
         }

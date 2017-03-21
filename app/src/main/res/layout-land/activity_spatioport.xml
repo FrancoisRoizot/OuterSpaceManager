@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="">
+    tools:context=".activity.SpatioPortActivity">
 
     <fragment
         android:id="@+id/shipListFragment"
-        android:name="com.space_shuttle.ShipListFragment"
+        android:name="roizot.com.outerspacemanager.outerspacemanager.activity.ShipListFragment"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/shipDetailsFragment"
-        android:name="com.space_shuttle.ShipDetailsFragment"
+        android:name="roizot.com.outerspacemanager.outerspacemanager.activity.ShipDetailFragment"
         android:layout_width="0dp"
         android:layout_weight="3"
         android:layout_height="match_parent"

@@ -44,7 +44,6 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
         isRefreshing = refreshing;
     }
 
-
     public BuildingAdapter(ArrayList<Building> buildings, Context context, Refresh refresh) {
         this.buildings = buildings;
         this.context = context;
@@ -91,8 +90,12 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.Buildi
                     public void run() {
                         String hms = Config.formatTime(timeStamp - System.currentTimeMillis());
                         holder.upgradeBuilding.setText(hms);
-                        if (isRefreshing){
+                        if (isRefreshing) {
                             handler.postDelayed(this, 1000);
+                            if (timeStamp - System.currentTimeMillis() < 0) {
+                                refresh.refresh();
+                                isRefreshing = false;
+                            }
                         }
                     }
                 };

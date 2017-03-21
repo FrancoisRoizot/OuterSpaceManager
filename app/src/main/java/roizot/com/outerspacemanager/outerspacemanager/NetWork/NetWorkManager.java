@@ -50,13 +50,13 @@ public interface NetWorkManager {
     Call<ShipsResponse> getFleet(@Header("x-access-token") String token);
 
     @GET("ships/create/{shipId}")
-    Call<PostResponse> buildShips(@Header("x-access-token") String token, @Path("shipId") int shipId, @Body Map<String, Integer> ships);
+    Call<PostResponse> buildShips(@Header("x-access-token") String token, @Path("shipId") int shipId, int amount);
 
     @GET("ships")
-    Call<Ship> getShips(@Header("x-access-token") String token);
+    Call<ShipsResponse> getShips(@Header("x-access-token") String token);
 
     @GET("ships/{shipId}")
-    Call<ShipsResponse> getShip(@Header("x-access-token") String token, @Path("shipId") int shipId);
+    Call<Ship> getShip(@Header("x-access-token") String token, @Path("shipId") int shipId);
 
     // TODO : Créer l'objet Reports
     @GET("reports/{from}/{limit}")

@@ -73,7 +73,8 @@ public class ResearchAdapter extends RecyclerView.Adapter<ResearchAdapter.Resear
         holder.researchTimeBuild.setText(Config.formatTime(timeToSearch));
         if(research.isSearching()) {
             holder.upgradeResearch.setText(R.string.recherche_en_cours);
-            holder.upgradeResearch.setClickable(false);OuterSpaceManagerDAO bd = new OuterSpaceManagerDAO(context);
+            holder.upgradeResearch.setClickable(false);
+            OuterSpaceManagerDAO bd = new OuterSpaceManagerDAO(context);
             bd.open();
             ArrayList<ResearchDB> researchTime = bd.getResearchRunning(researchId);
             bd.close();
@@ -87,6 +88,10 @@ public class ResearchAdapter extends RecyclerView.Adapter<ResearchAdapter.Resear
                         holder.upgradeResearch.setText(hms);
                         if (isRefreshing){
                             handler.postDelayed(this, 1000);
+                            if (timeStamp - System.currentTimeMillis() < 0) {
+                                refresh.refresh();
+                                isRefreshing = false;
+                            }
                         }
                     }
                 };

@@ -1,8 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO : Mon magnifique layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipName"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:textSize="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipLife"
+            android:textSize="16sp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/shipName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipShield"
+            android:layout_below="@+id/shipLife"
+            android:layout_alignLeft="@+id/shipLife"
+            android:layout_alignStart="@+id/shipLife"
+            android:layout_marginTop="10dp"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipAttack"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/shipShield"
+            android:layout_alignLeft="@+id/shipShield"
+            android:layout_alignStart="@+id/shipShield"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipSpeed"
+            android:layout_below="@+id/shipAttack"
+            android:layout_alignLeft="@+id/shipAttack"
+            android:layout_alignStart="@+id/shipAttack"
+            android:layout_marginTop="10dp"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipMineralCost"
+            android:layout_gravity="center_horizontal"
+            android:textSize="14sp"
+            android:layout_below="@+id/shipSpeed"
+            android:layout_alignLeft="@+id/shipSpeed"
+            android:layout_alignStart="@+id/shipSpeed"
+            android:layout_marginTop="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/shipGasCost"
+            android:layout_below="@+id/shipMineralCost"
+            android:layout_alignLeft="@+id/shipMineralCost"
+            android:layout_alignStart="@+id/shipMineralCost"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipSpatioPortLvlNeeded"
+            android:layout_below="@+id/shipGasCost"
+            android:layout_alignLeft="@+id/shipGasCost"
+            android:layout_alignStart="@+id/shipGasCost"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipTimeToBuild"
+            android:layout_below="@+id/shipSpatioPortLvlNeeded"
+            android:layout_alignLeft="@+id/shipSpatioPortLvlNeeded"
+            android:layout_alignStart="@+id/shipSpatioPortLvlNeeded"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fabriquer"
+            android:id="@+id/shipBuildShip"
+            android:layout_marginBottom="50dp"
+            android:textAlignment="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="50dp"
+            android:layout_marginEnd="50dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/shipAmountToBuild"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="14sp"
+            android:inputType="number" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/max"
+            android:id="@+id/shipBuildMax"
+            android:layout_above="@+id/shipBuildShip"
+            android:layout_alignRight="@+id/shipBuildShip"
+            android:layout_alignEnd="@+id/shipBuildShip"
+            android:textSize="14sp" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reset"
+            android:id="@+id/shipReset"
+            android:layout_above="@+id/shipAmountToBuild"
+            android:layout_alignLeft="@+id/shipAmountToBuild"
+            android:layout_alignStart="@+id/shipAmountToBuild"
+            android:textSize="14sp" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/plus100"
+            android:id="@+id/shipPlusCent"
+            android:layout_alignBaseline="@+id/shipBuildMax"
+            android:layout_alignBottom="@+id/shipBuildMax"
+            android:layout_centerHorizontal="true"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</ScrollView>

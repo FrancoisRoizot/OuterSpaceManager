@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/shipDetailsFragment"
-        android:name="com.space_shuttle.ShipDetailsFragment"
+        android:name="roizot.com.outerspacemanager.outerspacemanager.activity.ShipDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_ship_detail" />

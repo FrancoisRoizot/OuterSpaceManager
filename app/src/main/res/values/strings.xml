@@ -22,4 +22,8 @@
     <string name="classement">Classement</string>
     <string name="joueur">Joueur :</string>
     <string name="points">Points :</string>
+    <string name="fabriquer">Fabriquer</string>
+    <string name="max">Max</string>
+    <string name="reset">Reset</string>
+    <string name="plus100">+ 100</string>
 </resources>
