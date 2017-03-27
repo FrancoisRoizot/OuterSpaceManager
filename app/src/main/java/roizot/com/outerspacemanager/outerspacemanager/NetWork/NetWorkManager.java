@@ -49,8 +49,8 @@ public interface NetWorkManager {
     @GET("fleet/list")
     Call<ShipsResponse> getFleet(@Header("x-access-token") String token);
 
-    @GET("ships/create/{shipId}")
-    Call<PostResponse> buildShips(@Header("x-access-token") String token, @Path("shipId") int shipId, int amount);
+    @POST("ships/create/{shipId}")
+    Call<PostResponse> buildShips(@Header("x-access-token") String token, @Path("shipId") int shipId, @Body Map<String, Integer> amount);
 
     @GET("ships")
     Call<ShipsResponse> getShips(@Header("x-access-token") String token);

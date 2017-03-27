@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
@@ -13,7 +13,7 @@
             android:id="@+id/shipName"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textAlignment="center" />
@@ -38,7 +38,7 @@
             android:layout_alignLeft="@+id/shipLife"
             android:layout_alignStart="@+id/shipLife"
             android:layout_marginTop="10dp"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
             android:layout_below="@+id/shipShield"
             android:layout_alignLeft="@+id/shipShield"
             android:layout_alignStart="@+id/shipShield"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:layout_alignLeft="@+id/shipAttack"
             android:layout_alignStart="@+id/shipAttack"
             android:layout_marginTop="10dp"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,59 +103,58 @@
             android:textSize="14sp" />
 
         <Button
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/fabriquer"
-            android:id="@+id/shipBuildShip"
-            android:layout_marginBottom="50dp"
-            android:textAlignment="center"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="50dp"
-            android:layout_marginEnd="50dp"
-            android:textSize="14sp" />
+            android:text="@string/reset"
+            android:id="@+id/shipReset"
+            android:textSize="14sp"
+            android:layout_below="@+id/shipTimeToBuild"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="45dp" />
 
         <EditText
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/shipAmountToBuild"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="50dp"
-            android:layout_marginLeft="50dp"
             android:textSize="14sp"
-            android:inputType="number" />
+            android:layout_below="@+id/shipReset"
+            android:layout_alignLeft="@+id/shipReset"
+            android:layout_alignStart="@+id/shipReset"
+            android:inputType="number"
+            android:singleLine="false" />
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/max"
-            android:id="@+id/shipBuildMax"
-            android:layout_above="@+id/shipBuildShip"
-            android:layout_alignRight="@+id/shipBuildShip"
-            android:layout_alignEnd="@+id/shipBuildShip"
-            android:textSize="14sp" />
-
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/reset"
-            android:id="@+id/shipReset"
-            android:layout_above="@+id/shipAmountToBuild"
-            android:layout_alignLeft="@+id/shipAmountToBuild"
-            android:layout_alignStart="@+id/shipAmountToBuild"
-            android:textSize="14sp" />
+            android:text="@string/fabriquer"
+            android:id="@+id/shipBuildShip"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/shipAmountToBuild"
+            android:layout_toEndOf="@+id/shipAmountToBuild" />
 
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/plus100"
             android:id="@+id/shipPlusCent"
-            android:layout_alignBaseline="@+id/shipBuildMax"
-            android:layout_alignBottom="@+id/shipBuildMax"
-            android:layout_centerHorizontal="true"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_above="@+id/shipAmountToBuild"
+            android:layout_toRightOf="@+id/shipReset"
+            android:layout_toEndOf="@+id/shipReset" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/max"
+            android:id="@+id/shipBuildMax"
+            android:textSize="14sp"
+            android:layout_alignBaseline="@+id/shipPlusCent"
+            android:layout_alignBottom="@+id/shipPlusCent"
+            android:layout_toRightOf="@+id/shipPlusCent"
+            android:layout_toEndOf="@+id/shipPlusCent" />
     </RelativeLayout>
 </ScrollView>

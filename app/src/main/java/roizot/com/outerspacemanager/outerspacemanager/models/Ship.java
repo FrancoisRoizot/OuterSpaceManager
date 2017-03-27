@@ -1,9 +1,11 @@
 package roizot.com.outerspacemanager.outerspacemanager.models;
 
+import java.io.Serializable;
+
 /**
  * Created by roizotf on 21/03/2017.
  */
-public class Ship {
+public class Ship implements Serializable{
 
     private int gasCost;
     private int life;
@@ -15,7 +17,7 @@ public class Ship {
     private int shield;
     private int spatioportLevelNeeded;
     private int speed;
-    private int timeToBuild;
+    private long timeToBuild;
 
     public int getGasCost() { return gasCost; }
 
@@ -37,5 +39,5 @@ public class Ship {
 
     public int getSpeed() { return speed; }
 
-    public int getTimeToBuild() { return timeToBuild; }
+    public long getTimeToBuild() { return timeToBuild; }
 }

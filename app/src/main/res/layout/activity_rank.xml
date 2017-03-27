@@ -3,11 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.RankActivity">
 
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/usersList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/usersList" />
+        android:layout_height="450dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/previousRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/fleche_gauche" />
+
+        <Button
+            android:id="@+id/nextRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/fleche_droite" />
+    </LinearLayout>
 
 </LinearLayout>

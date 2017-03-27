@@ -1,10 +1,13 @@
 package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -22,11 +25,15 @@ import roizot.com.outerspacemanager.outerspacemanager.netWork.UsersResponse;
  * Created by mac4 on 14/03/2017.
  */
 
-public class RankActivity extends Activity{
+public class RankActivity extends Activity implements View.OnClickListener {
 
     private static final int LIMIT = 20;
     private String token;
     private RecyclerView rvRank;
+    private Button nextRank;
+    private Button previousRank;
+    private int start = 0;
+    private ProgressDialog loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +42,18 @@ public class RankActivity extends Activity{
 
         token = Config.getToken(getApplicationContext());
 
-        this.rvRank = (RecyclerView) findViewById(R.id.usersList);
+        rvRank = (RecyclerView) findViewById(R.id.usersList);
         rvRank.setLayoutManager(new LinearLayoutManager(this));
+        nextRank = (Button) findViewById(R.id.nextRank);
+        nextRank.setOnClickListener(this);
+        previousRank = (Button) findViewById(R.id.previousRank);
+        previousRank.setOnClickListener(this);
 
+        previousRank.setVisibility(View.GONE);
+
+        loader = new ProgressDialog(this).show(this, "Chargement du classement", "");
         getRanks();
+
     }
 
     public void getRanks() {
@@ -47,12 +62,16 @@ public class RankActivity extends Activity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NetWorkManager service = retrofit.create(NetWorkManager.class);
-        Call<UsersResponse> request = service.getUsersRank(token, 0, LIMIT);
+        Call<UsersResponse> request = service.getUsersRank(token, start, LIMIT);
 
         request.enqueue(new Callback<UsersResponse>() {
             @Override
             public void onResponse(Call<UsersResponse> request, Response<UsersResponse> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().getUsers().size() < LIMIT) {
+                        nextRank.setVisibility(View.GONE);
+                    }
+//                    if (loader.get)
                     rvRank.setAdapter(new RankAdapter(response.body().getUsers(), RankActivity.this));
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
@@ -68,5 +87,27 @@ public class RankActivity extends Activity{
                 Toast.makeText(getApplicationContext(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.nextRank :
+                if(start == 0) {
+                    previousRank.setVisibility(View.VISIBLE);
+                }
+                start = start + 20;
+                break;
+            case R.id.previousRank :
+                start = start - 20;
+                if(start == 0) {
+                    previousRank.setVisibility(View.GONE);
+                }
+                if (nextRank.getVisibility() == View.GONE) {
+                    nextRank.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
+        getRanks();
     }
 }

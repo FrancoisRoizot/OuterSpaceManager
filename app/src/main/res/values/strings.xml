@@ -26,4 +26,6 @@
     <string name="max">Max</string>
     <string name="reset">Reset</string>
     <string name="plus100">+ 100</string>
+    <string name="fleche_gauche"><![CDATA[<--]]></string>
+    <string name="fleche_droite"><![CDATA[-->]]></string>
 </resources>

@@ -2,6 +2,7 @@ package roizot.com.outerspacemanager.outerspacemanager.activity;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,10 +21,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import roizot.com.outerspacemanager.outerspacemanager.R;
 import roizot.com.outerspacemanager.outerspacemanager.helpers.Config;
-import roizot.com.outerspacemanager.outerspacemanager.helpers.Refresh;
+import roizot.com.outerspacemanager.outerspacemanager.helpers.adapter.ShipListAdapter;
 import roizot.com.outerspacemanager.outerspacemanager.models.Ship;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.NetWorkManager;
 import roizot.com.outerspacemanager.outerspacemanager.netWork.PostResponse;
+import roizot.com.outerspacemanager.outerspacemanager.netWork.ShipsResponse;
 
 /**
  * Created by roizotf on 21/03/2017.
@@ -77,51 +82,65 @@ public class ShipDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void fillShipDetail(final Ship ship, Float userMinerals, Float userGas) {
+    public void fillShipDetail(final Ship ship, double userMinerals, double userGas) {
 
-        shipName.setText(ship.getName());
-        shipGasCost.setText(String.valueOf(ship.getGasCost()));
-        shipMineralCost.setText(String.valueOf(ship.getMineralCost()));
-        shipAttack.setText(String.valueOf(ship.getMinAttack()));
-        shipShield.setText(String.valueOf(ship.getShield()));
-        shipLife.setText(String.valueOf(ship.getLife()));
-        shipSpeed.setText(String.valueOf(ship.getSpeed()));
-        shipTimeToBuild.setText(String.valueOf(ship.getTimeToBuild()));
+        String vShipname = ship.getName();
+        String vshipGasCost = "Gaz : " + String.valueOf(ship.getGasCost());
+        String vshipMineralCost = "Métaux : " + String.valueOf(ship.getMineralCost());
+        String vshipAttack = "Attaque : " + ship.getMinAttack();
+        String vshipShield = "Bouclier : " + ship.getShield();
+        String vshipLife = "Vie : " + ship.getLife();
+        String vshipSpeed = "Vitesse : " + ship.getSpeed();
+        String vshipTimeToBuild = "Temps de construction : " + Config.formatTime(ship.getTimeToBuild());
+        String vShipSpatioPortLvlNeeded = "Niveau du SpatioPort requis : " + ship.getSpatioportLevelNeeded();
+        int maxshipsBuildable = 0;
 
-        int nbShipWithMinerals = Math.round(userMinerals / ship.getMineralCost()) - 1;
-        int nbShipWithGas = Math.round(userGas / ship.getGasCost()) - 1;
-        Integer nbShip = 0;
+        shipName.setText(vShipname);
+        shipGasCost.setText(vshipGasCost);
+        shipMineralCost.setText(vshipMineralCost);
+        shipAttack.setText(vshipAttack);
+        shipShield.setText(vshipShield);
+        shipLife.setText(vshipLife);
+        shipSpeed.setText(vshipSpeed);
+        shipTimeToBuild.setText(vshipTimeToBuild);
+        shipSpatioPortLvlNeeded.setText(vShipSpatioPortLvlNeeded);
+        shipAmountToBuild.setText("0");
+
+        int nbShipWithMinerals = (int) Math.ceil(userMinerals / ship.getMineralCost());
+        int nbShipWithGas = (int) Math.ceil(userGas / ship.getGasCost());
         if(ship.getMineralCost() == 0) {
-            nbShip = nbShipWithGas;
+            maxshipsBuildable = nbShipWithGas;
         } else if(ship.getGasCost() == 0) {
-            nbShip = nbShipWithMinerals;
+            maxshipsBuildable = nbShipWithMinerals;
         } else {
             if(nbShipWithGas <= nbShipWithMinerals){
-                nbShip = nbShipWithGas;
+                maxshipsBuildable = nbShipWithGas;
             } else {
-                nbShip = nbShipWithMinerals;
+                maxshipsBuildable = nbShipWithMinerals;
             }
         }
+        final int finalMaxshipsBuildable = maxshipsBuildable;
 
         shipReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                shipAmountToBuild.setText("0");
             }
         });
         shipBuildMax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                shipAmountToBuild.setText(String.valueOf(finalMaxshipsBuildable));
             }
         });
+
         shipPlusCent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                int shipBuildNumber = Integer.valueOf(String.valueOf(shipAmountToBuild.getText()));
+                if(finalMaxshipsBuildable >= 100 + shipBuildNumber) {
+                    shipAmountToBuild.setText(String.valueOf(shipBuildNumber + 100));
+                }
             }
         });
         shipBuildShip.setOnClickListener(new View.OnClickListener() {
@@ -137,25 +156,28 @@ public class ShipDetailFragment extends Fragment {
                 .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         NetWorkManager service = retrofit.create(NetWorkManager.class);
-        Call<PostResponse> createShipCall = service.buildShips(token, shipId, amount);
-        createShipCall.enqueue(new Callback<PostResponse>() {
+        Map<String, Integer> amountMap = new HashMap<>();
+        amountMap.put("amount", amount);
+        Call<PostResponse> request = service.buildShips(token, shipId, amountMap);
+
+        request.enqueue(new Callback<PostResponse>() {
             @Override
-            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                if(response.code() == 200) {
+            public void onResponse(Call<PostResponse> request, Response<PostResponse> response) {
+                if (response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Vaisseaux en construction...", Toast.LENGTH_LONG).show();
-                    getActivity().finish();
-                    startActivity(getActivity().getIntent());
                 } else {
-                    Toast.makeText(getActivity(), "Une erreur est survenue...", Toast.LENGTH_LONG).show();
+                    Log.d("Error", "Erreur de parsing ou autres");
+                    Log.d("Why", response.toString());
+                    Toast.makeText(getActivity(), "Erreur à la récupération des données !", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PostResponse> call, Throwable t) {
-                Toast error = Toast.makeText(getActivity(), "Une erreur est survenue...", Toast.LENGTH_LONG);
-                error.show();
+            public void onFailure(Call<PostResponse> request, Throwable t) {
+                // something went completely south (like no internet connection)
+                Log.d("Error", t.getMessage());
+                Toast.makeText(getActivity(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();
             }
         });
     }

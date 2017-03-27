@@ -32,6 +32,8 @@ public class ShipListFragment extends Fragment implements Refresh {
     private ListView lvShips;
     private ArrayList<Ship> ships;
     private String token;
+    private double gas;
+    private double minerals;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +57,14 @@ public class ShipListFragment extends Fragment implements Refresh {
         return (Ship)lvShips.getAdapter().getItem(position);
     }
 
+    public double getMinerals() {
+        return minerals;
+    }
+
+    public double getGas() {
+        return gas;
+    }
+
     @Override
     public void refresh() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -68,8 +78,10 @@ public class ShipListFragment extends Fragment implements Refresh {
             @Override
             public void onResponse(Call<ShipsResponse> request, Response<ShipsResponse> response) {
                 if (response.isSuccessful()) {
-                    Log.i("Ships", response.body().toString());
+//                    Log.i("Ships", response.body().toString());
                     ships = response.body().getShips();
+                    gas = response.body().getCurrentUserGas();
+                    minerals = response.body().getCurrentUserMinerals();
                     lvShips.setAdapter(new ShipListAdapter(getActivity(), ships));
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
