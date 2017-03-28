@@ -100,7 +100,7 @@ public class ShipDetailFragment extends Fragment {
         String vshipSpeed = "Vitesse : " + ship.getSpeed();
         String vshipTimeToBuild = "Temps de construction : " + Config.formatTime(ship.getTimeToBuild());
         String vShipSpatioPortLvlNeeded = "Niveau du SpatioPort requis : " + ship.getSpatioportLevelNeeded();
-        int maxshipsBuildable = 0;
+        long maxshipsBuildable = 0;
 
         shipName.setText(vShipname);
         shipGasCost.setText(vshipGasCost);
@@ -115,7 +115,6 @@ public class ShipDetailFragment extends Fragment {
 
         int idImage = getActivity().getResources().getIdentifier("sheep_"+ ship.getShipId(), "drawable", getActivity().getPackageName());
 
-
         Glide
                 .with(getActivity())
                 .load(idImage)
@@ -123,8 +122,8 @@ public class ShipDetailFragment extends Fragment {
                 .crossFade()
                 .into(shipImage);
 
-        int nbShipWithMinerals = (int) Math.floor(userMinerals / ship.getMineralCost());
-        int nbShipWithGas = (int) Math.floor(userGas / ship.getGasCost());
+        long nbShipWithMinerals = (long) Math.floor(userMinerals / ship.getMineralCost());
+        long nbShipWithGas = (long) Math.floor(userGas / ship.getGasCost());
         if(ship.getMineralCost() == 0) {
             maxshipsBuildable = nbShipWithGas;
         } else if(ship.getGasCost() == 0) {
@@ -136,7 +135,7 @@ public class ShipDetailFragment extends Fragment {
                 maxshipsBuildable = nbShipWithMinerals;
             }
         }
-        final int finalMaxshipsBuildable = maxshipsBuildable;
+        final long finalMaxshipsBuildable = maxshipsBuildable;
 
         shipReset.setOnClickListener(new View.OnClickListener() {
             @Override

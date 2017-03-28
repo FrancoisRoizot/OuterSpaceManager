@@ -26,8 +26,10 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
 
     private Button connexion;
     private Button inscription;
+
     private EditText identifiant;
     private EditText password;
+    private EditText email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         inscription.setOnClickListener(this);
         identifiant = (EditText)findViewById(R.id.identifiant);
         password = (EditText)findViewById(R.id.password);
+        email = (EditText)findViewById(R.id.email);
 
 
         String token = Config.getToken(getApplicationContext());
@@ -52,7 +55,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.signUp :
-                this.createAccount(this.identifiant.getText().toString(), this.password.getText().toString());
+                this.createAccount(this.identifiant.getText().toString(), this.password.getText().toString(), this.email.getText().toString());
                 break;
             case R.id.signIn :
                 Intent toSignUp = new Intent(getApplicationContext(),SignInActivity.class);
@@ -61,10 +64,11 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    protected void createAccount(String identifiant, String password) {
+    protected void createAccount(String identifiant, String password, String email) {
         Map<String, String> data = new HashMap<>();
         data.put("username", identifiant);
         data.put("password", password);
+        data.put("email", email);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
