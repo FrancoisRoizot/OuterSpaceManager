@@ -28,4 +28,5 @@
     <string name="plus100">+ 100</string>
     <string name="fleche_gauche"><![CDATA[<--]]></string>
     <string name="fleche_droite"><![CDATA[-->]]></string>
+    <string name="image_du_vaisseau">Image du vaisseau</string>
 </resources>

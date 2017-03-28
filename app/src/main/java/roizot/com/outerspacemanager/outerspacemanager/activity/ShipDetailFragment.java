@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +54,8 @@ public class ShipDetailFragment extends Fragment {
 
     private EditText shipAmountToBuild;
 
+    private ImageView shipImage;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ship_detail, container);
@@ -73,6 +78,8 @@ public class ShipDetailFragment extends Fragment {
         shipPlusCent = (Button)v.findViewById(R.id.shipPlusCent);
 
         shipAmountToBuild = (EditText) v.findViewById(R.id.shipAmountToBuild);
+
+        shipImage = (ImageView) v.findViewById(R.id.shipImage);
 
         return v;
     }
@@ -106,8 +113,18 @@ public class ShipDetailFragment extends Fragment {
         shipSpatioPortLvlNeeded.setText(vShipSpatioPortLvlNeeded);
         shipAmountToBuild.setText("0");
 
-        int nbShipWithMinerals = (int) Math.ceil(userMinerals / ship.getMineralCost());
-        int nbShipWithGas = (int) Math.ceil(userGas / ship.getGasCost());
+        int idImage = getActivity().getResources().getIdentifier("sheep_"+ ship.getShipId(), "drawable", getActivity().getPackageName());
+
+
+        Glide
+                .with(getActivity())
+                .load(idImage)
+                .fitCenter()
+                .crossFade()
+                .into(shipImage);
+
+        int nbShipWithMinerals = (int) Math.floor(userMinerals / ship.getMineralCost());
+        int nbShipWithGas = (int) Math.floor(userGas / ship.getGasCost());
         if(ship.getMineralCost() == 0) {
             maxshipsBuildable = nbShipWithGas;
         } else if(ship.getGasCost() == 0) {

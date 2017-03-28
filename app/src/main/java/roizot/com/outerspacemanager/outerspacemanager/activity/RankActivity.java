@@ -51,12 +51,18 @@ public class RankActivity extends Activity implements View.OnClickListener {
 
         previousRank.setVisibility(View.GONE);
 
-        loader = new ProgressDialog(this).show(this, "Chargement du classement", "");
+        loader = new ProgressDialog(this);
+        loader.setTitle("Chargement du classement");
+        loader.setCancelable(false);
+
         getRanks();
 
     }
 
     public void getRanks() {
+        loader.setMessage("Rangs " + (1 + start) + " à " + (21 + start));
+        loader.show();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetWorkManager.BASE_URI)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -71,12 +77,14 @@ public class RankActivity extends Activity implements View.OnClickListener {
                     if (response.body().getUsers().size() < LIMIT) {
                         nextRank.setVisibility(View.GONE);
                     }
-//                    if (loader.get)
                     rvRank.setAdapter(new RankAdapter(response.body().getUsers(), RankActivity.this));
                 } else {
                     Log.d("Error", "Erreur de parsing ou autres");
                     Log.d("Why", response.toString());
                     Toast.makeText(getApplicationContext(), "Erreur à la récupération des données !", Toast.LENGTH_SHORT).show();
+                }
+                if (loader.isShowing()) {
+                    loader.dismiss();
                 }
             }
 
@@ -85,6 +93,9 @@ public class RankActivity extends Activity implements View.OnClickListener {
                 // something went completely south (like no internet connection)
                 Log.d("Error", t.getMessage());
                 Toast.makeText(getApplicationContext(), "Erreur de connexion !", Toast.LENGTH_SHORT).show();
+                if (loader.isShowing()) {
+                    loader.dismiss();
+                }
             }
         });
     }

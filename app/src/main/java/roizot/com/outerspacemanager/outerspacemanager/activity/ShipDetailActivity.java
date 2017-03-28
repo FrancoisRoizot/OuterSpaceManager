@@ -18,8 +18,8 @@ public class ShipDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ship_detail);
         Ship ship = (Ship)getIntent().getSerializableExtra("SHIP_SELECTED");
-        Float userMinerals = getIntent().getFloatExtra("USER_MINERALS", 0);
-        Float userGas = getIntent().getFloatExtra("USER_GAS", 0);
+        double userMinerals = getIntent().getDoubleExtra("USER_MINERALS", 0);
+        double userGas = getIntent().getDoubleExtra("USER_GAS", 0);
 
         ShipDetailFragment shipDetailsFrag = (ShipDetailFragment) getFragmentManager()
                 .findFragmentById(R.id.shipDetailsFragment);

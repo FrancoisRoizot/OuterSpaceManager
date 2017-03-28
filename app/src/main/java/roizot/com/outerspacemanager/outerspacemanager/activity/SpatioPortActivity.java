@@ -36,7 +36,6 @@ public class SpatioPortActivity extends Activity implements AdapterView.OnItemCl
             i.putExtra("SHIP_SELECTED", ship);
             i.putExtra("USER_MINERALS", gas);
             i.putExtra("USER_GAS", minerals);
-
             startActivity(i);
         } else {
             shipDetailsFrag.fillShipDetail(ship, gas, minerals);
